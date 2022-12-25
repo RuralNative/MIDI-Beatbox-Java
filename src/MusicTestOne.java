@@ -6,9 +6,9 @@ public class MusicTestOne {
         //Exception Handling for MidiUnavailableException
         try {
             Sequencer sequencer = MidiSystem.getSequencer();
-            System.out.println("We got a sequencer");
         } catch (MidiUnavailableException exception) {
-            System.out.println("MidiUnavailableException catched.");
+            System.out.println("Exception handled");
+            exception.printStackTrace();
         }
     }
 }    
