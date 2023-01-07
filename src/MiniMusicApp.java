@@ -1,6 +1,6 @@
 import javax.sound.midi.*;
 
-public class  MiniMusicApp {
+public class MiniMusicApp {
     /*
      * Method to Play Sample Sound
      * Sequencer is instantiated and opened
@@ -20,12 +20,12 @@ public class  MiniMusicApp {
             Track musicTrack = musicSequence.createTrack();
 
             ShortMessage soundOne = new ShortMessage();
-            soundOne.setMessage(192, 1, 44, 100);
+            soundOne.setMessage(144, 1, 44, 100);
             MidiEvent noteOn = new MidiEvent(soundOne, 1);
             musicTrack.add(noteOn);
 
             ShortMessage soundTwo = new ShortMessage();
-            soundTwo.setMessage(192, 1, 44, 100);
+            soundTwo.setMessage(128, 1, 44, 100);
             MidiEvent noteOff = new MidiEvent(soundTwo, 16);
             musicTrack.add(noteOff);
 
