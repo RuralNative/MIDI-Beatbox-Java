@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MusicPlayer",
+            "request": "launch",
+            "mainClass": "practiceForController.MusicPlayer",
+            "projectName": "MIDI-Beatbox-Java_590d407"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "practiceForController.Main",
+            "projectName": "MIDI-Beatbox-Java_590d407"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
