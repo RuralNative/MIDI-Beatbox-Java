@@ -1,5 +1,7 @@
-import javax.swing.JFrame;
-import javax.swing.JButton;
+package mainPackage;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class playerInterface {
     public playerInterface() {
