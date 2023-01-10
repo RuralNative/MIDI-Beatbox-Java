@@ -88,5 +88,28 @@ public class BeatPlayer {
             e.printStackTrace();
         }
     }
-     
+    
+    public void buildTrackAndStart() {
+        int[] trackList = null;
+
+        musicSequence.deleteTrack(musicTrack);
+        musicTrack = musicSequence.createTrack();
+
+        for (int outerLoopCount = 0; outerLoopCount < 16; outerLoopCount++) {
+            trackList = new int[16];
+            int key = instrumentIndex[outerLoopCount];
+            
+            for (int innerLoopCount = 0; innerLoopCount < 16; innerLoopCount++) {
+                JCheckBox instrumentIndexCheckBox = (JCheckBox) checkBoxList.get(innerLoopCount + (16+ outerLoopCount));
+                
+                if (instrumentIndexCheckBox.isSelected()) {
+                    trackList[innerLoopCount] = key;
+                } else {
+                    trackList[innerLoopCount] = 0;
+                }
+            }
+
+            makeTracks
+        }
+    }
 }
