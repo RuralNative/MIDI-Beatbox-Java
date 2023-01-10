@@ -2,7 +2,6 @@ package BeatBox;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.plaf.PanelUI;
 import javax.sound.midi.*;
 import java.util.*;
 import java.awt.event.*;
@@ -36,7 +35,7 @@ public class BeatPlayer {
         buttonBox.add(startButton);
 
         JButton stopButton = new JButton("Stop");
-        stopButton.addActionListener(new StopButtonListener);
+        stopButton.addActionListener(new StopButtonListener());
         buttonBox.add(stopButton);
 
         JButton increaseTempoButton = new JButton("Tempo Up");
@@ -74,7 +73,7 @@ public class BeatPlayer {
 
         mainFrame.setBounds(50, 50, 300, 300);
         mainFrame.pack();
-        mainFrame.setVisible();
+        mainFrame.setVisible(true);
     }
 
     public void setUpMidi() {
@@ -108,8 +107,69 @@ public class BeatPlayer {
                     trackList[innerLoopCount] = 0;
                 }
             }
+            makeTracks(trackList);
+            musicTrack.add(makeEvent(192, 9, 1, 0, 15));
+        }
 
-            makeTracks
+        musicTrack.add(makeEvent(192, 9, 1, 0, 15));
+        try {
+            musicSequencer.setSequence(musicSequence);
+            musicSequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
+            musicSequencer.start();
+            musicSequencer.setTempoInBPM(120);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    public class StartButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent a) {
+            buildTrackAndStart();
+        }
+    }
+
+    public class StopButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent a) {
+            musicSequencer.stop();
+        }
+    }
+
+    public class IncreaseTempoButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent a) {
+            float tempoFactor = musicSequencer.getTempoFactor();
+            musicSequencer.setTempoFactor((float)(tempoFactor * 1.03));
+        }
+    }
+
+    public class DecreaseTempoButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent a) {
+            float tempoFactor = musicSequencer.getTempoFactor();
+            musicSequencer.setTempoFactor((float)(tempoFactor * 0.97));
+        }
+    }
+
+    public void makeTracks(int[] list) {
+        for (int loopCount = 0; loopCount < 16; loopCount++) {
+            int key = list[loopCount];
+
+            if (key != 0) {
+                musicTrack.add(makeEvent(144, 9, key, 100, loopCount));
+                musicTrack.add(makeEvent(128, 9, key, 100, loopCount+1));
+            }
+        }
+    }
+
+    public MidiEvent makeEvent(int command, int channel, int one, int two, int tick) {
+        MidiEvent event = null;
+        try {
+            ShortMessage note = new ShortMessage();
+            note.setMessage(command, channel, two, tick);
+            event = new MidiEvent(note, tick);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return event;
+    }
 }
+
+
