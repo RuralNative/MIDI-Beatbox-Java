@@ -20,6 +20,7 @@ public class BeatPlayer {
         new BeatPlayer().buildInterface();
     }
 
+    //Method to create GUI 
     public void buildInterface() {
         mainFrame = new JFrame("Cyber BeatBox");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,8 +93,11 @@ public class BeatPlayer {
         int[] trackList = null;
 
         musicSequence.deleteTrack(musicTrack);
+        System.out.println("Track Deleted");
         musicTrack = musicSequence.createTrack();
+        System.out.println("Created Track in Sequence");
 
+        //LOOP
         for (int outerLoopCount = 0; outerLoopCount < 16; outerLoopCount++) {
             trackList = new int[16];
             int key = instrumentIndex[outerLoopCount];
@@ -108,8 +112,9 @@ public class BeatPlayer {
                 }
             }
             makeTracks(trackList);
-            musicTrack.add(makeEvent(192, 9, 1, 0, 15));
+            musicTrack.add(makeEvent(176, 1, 127, 0, 16));
         }
+        //LOOP
 
         musicTrack.add(makeEvent(192, 9, 1, 0, 15));
         try {
@@ -124,6 +129,7 @@ public class BeatPlayer {
 
     public class StartButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent a) {
+            System.out.println("Start Button Clicked");
             buildTrackAndStart();
         }
     }
@@ -163,7 +169,7 @@ public class BeatPlayer {
         MidiEvent event = null;
         try {
             ShortMessage note = new ShortMessage();
-            note.setMessage(command, channel, two, tick);
+            note.setMessage(command, channel, one, two);
             event = new MidiEvent(note, tick);
         } catch (Exception e) {
             e.printStackTrace();
