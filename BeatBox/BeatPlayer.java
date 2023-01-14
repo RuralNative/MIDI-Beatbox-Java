@@ -22,47 +22,58 @@ public class BeatPlayer {
 
     //Method to create GUI 
     public void buildInterface() {
+        //Creates Frame of which all GUI components shall be built
         mainFrame = new JFrame("Cyber BeatBox");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Creates Panel (backgroundPanel) with BorderLayOut and set Properties where components shall be built on
         BorderLayout backgroundLayout = new BorderLayout();
         JPanel backgroundPanel = new JPanel(backgroundLayout);
         backgroundPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         checkBoxList = new ArrayList<JCheckBox>();
+
+        //Creates Box to Add Buttons On
         Box buttonBox = new Box(BoxLayout.Y_AXIS);
 
+        //Creates Buttons then Add to Box
         JButton startButton = new JButton("Start");
         startButton.addActionListener(new StartButtonListener());
         buttonBox.add(startButton);
-
+        //
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(new StopButtonListener());
         buttonBox.add(stopButton);
-
+        //
         JButton increaseTempoButton = new JButton("Tempo Up");
         increaseTempoButton.addActionListener(new IncreaseTempoButtonListener());
         buttonBox.add(increaseTempoButton);
-
+        //
         JButton decreaseTempoButton = new JButton("Tempo Down");
         decreaseTempoButton.addActionListener(new DecreaseTempoButtonListener());
         buttonBox.add(decreaseTempoButton);
 
+        //Creates Box to Put Instrument Names On
         Box instrumentNameBox = new Box(BoxLayout.Y_AXIS);
         for (int instrumentIndex = 0; instrumentIndex < 16; instrumentIndex++) {
             instrumentNameBox.add(new Label (instrumentList[instrumentIndex]));
         }
 
+        //Add the Two Boxes to Panel EAST and WEST regions
         backgroundPanel.add(BorderLayout.EAST, buttonBox);
         backgroundPanel.add(BorderLayout.WEST, instrumentNameBox);
 
+        //Add Panel (backgroundPanel) to Frame
         mainFrame.getContentPane().add(backgroundPanel);
 
+        //Build Panel (mainPanel) on Panel (backgroundPanel)
         GridLayout gridLayout = new GridLayout(16, 16);
         gridLayout.setVgap(1);
         gridLayout.setHgap(2);
         mainPanel = new JPanel(gridLayout);
         backgroundPanel.add(BorderLayout.CENTER, mainPanel);
 
+        //Build Checkboxes for Panel (mainPanel)
         for (int loopCount = 0; loopCount < 256; loopCount++) {
             JCheckBox beatCheckBox = new JCheckBox();
             beatCheckBox.setSelected(false);
@@ -70,13 +81,17 @@ public class BeatPlayer {
             mainPanel.add(beatCheckBox);
         }
 
+
+        //Set Up Midi Functions (NOT GUI)
         setUpMidi();
 
+        //Set Properties of Frame
         mainFrame.setBounds(50, 50, 300, 300);
         mainFrame.pack();
         mainFrame.setVisible(true);
     }
 
+    //Build Sequencer and Sequence
     public void setUpMidi() {
         try {
             musicSequencer = MidiSystem.getSequencer();
@@ -127,26 +142,27 @@ public class BeatPlayer {
         }
     }
 
+    //INNER CLASSES FOR GUI BUTTONS
     public class StartButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent a) {
             System.out.println("Start Button Clicked");
             buildTrackAndStart();
         }
     }
-
+    //
     public class StopButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent a) {
             musicSequencer.stop();
         }
     }
-
+    //
     public class IncreaseTempoButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent a) {
             float tempoFactor = musicSequencer.getTempoFactor();
             musicSequencer.setTempoFactor((float)(tempoFactor * 1.03));
         }
     }
-
+    //
     public class DecreaseTempoButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent a) {
             float tempoFactor = musicSequencer.getTempoFactor();
@@ -154,6 +170,7 @@ public class BeatPlayer {
         }
     }
 
+    //Makes Track to be added to Sequence in buildTrackAndStart()
     public void makeTracks(int[] list) {
         for (int loopCount = 0; loopCount < 16; loopCount++) {
             int key = list[loopCount];
