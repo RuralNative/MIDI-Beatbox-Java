@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch BeatPlayer",
+            "request": "launch",
+            "mainClass": "BeatBox.BeatPlayer",
+            "projectName": "MIDI-Beatbox-Java_590d407"
+        },
+        {
+            "type": "java",
             "name": "Launch Swing",
             "request": "launch",
             "mainClass": "practiceForGUI.Swing",
