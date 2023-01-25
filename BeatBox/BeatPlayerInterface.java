@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.sound.midi.*;
 import java.util.*;
-import java.awt.event.*;
+import java.awt.event.*; 
 
 public class BeatPlayerInterface {
     MusicPlayer player = new MusicPlayer();
